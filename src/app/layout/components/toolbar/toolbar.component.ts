@@ -8,6 +8,9 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
 import { navigation } from 'app/navigation/navigation';
+import { AuthService } from 'app/services/auth.service';
+import { User } from 'app/models/user';
+import { UserService } from 'app/services/user.service';
 
 @Component({
     selector     : 'toolbar',
@@ -25,7 +28,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
-
+    user: User = new User();
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -39,7 +42,9 @@ export class ToolbarComponent implements OnInit, OnDestroy
     constructor(
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
-        private _translateService: TranslateService
+        private _translateService: TranslateService,
+        private _auth: AuthService,
+        private _user: UserService
     )
     {
         // Set the defaults
@@ -81,6 +86,11 @@ export class ToolbarComponent implements OnInit, OnDestroy
                 id   : 'tr',
                 title: 'Turkish',
                 flag : 'tr'
+            },
+            {
+                id : 'es',
+                title : 'Spanish',
+                flag : 'es'
             }
         ];
 
@@ -107,9 +117,47 @@ export class ToolbarComponent implements OnInit, OnDestroy
                 this.rightNavbar = settings.layout.navbar.position === 'right';
                 this.hiddenNavbar = settings.layout.navbar.hidden === true;
             });
-
+            //this._user.getUser().subscribe(data => this.user = data);
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
+
+        if (this.loggedIn() && this._user.FilledIn()) {
+            this.user = this._user.getUser()
+        }else{
+            this._user.isLoggedIn().subscribe(
+                s => {
+                    if (s) {
+                        this.user = this._user.getUser()
+                        if (!this.user) {
+                            this._user.getUserFromRepository()
+                            .subscribe(s => this.user = s)
+                        }
+                    }
+                }
+            )
+        }
+        
+        /* if (this.loggedIn() && this._user.FilledIn()) {
+            this.user = this._user.getUser()
+        }
+        while (this._auth.loggedIn() && !this._user.FilledIn()) {
+            console.log('recharged')
+            this.user = this._user.getUser()
+            console.log(this.user)
+            if (!this.user) {
+                this._user.getUserFromRepository()
+                .subscribe(s => this.user = s)
+            }
+        } */
+        /* while(this._auth.loggedIn() && !this._user.FilledIn()){
+            this.user = this._user.getUser()
+            if (!this.user) {
+                 = this._user.getUserFromRepository()
+            }
+        } */
+        //if(this._auth.loggedIn() || this._user.getAppUser()){
+            //this._user.getUser().subscribe(data => {this.user = data;});
+        //}
     }
 
     /**
@@ -134,6 +182,18 @@ export class ToolbarComponent implements OnInit, OnDestroy
     toggleSidebarOpen(key): void
     {
         this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
+
+    login(){
+    this._auth.login();
+    }
+
+    logout(){
+    this._auth.logout();
+    }
+
+    loggedIn(): boolean{
+    return this._auth.loggedIn()
     }
 
     /**

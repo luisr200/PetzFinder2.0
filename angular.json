@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-            "aot": true,
+            "aot": false,
                         "outputPath": "dist/fuse",
                         "index": "src/index.html",
                         "main": "src/main.ts",
@@ -28,7 +28,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.scss"
+                            "src/styles.scss",
+                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
                         ],
                         "scripts": [],
                         "showCircularDependencies": false
@@ -91,7 +92,10 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "fuse:build"
+                        "browserTarget": "fuse:build",
+                        "ssl": true,
+                        "sslKey": "./ssl/server.key",
+                        "sslCert": "./ssl/server.crt"
                     },
                     "configurations": {
                         "production": {

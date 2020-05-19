@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -18,17 +18,30 @@ import { fuseConfig } from 'app/fuse-config';
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { SampleModule } from 'app/main/sample/sample.module';
+import { TagComponent } from './tag/tag.component';
+import { MaterialModule } from './material/material.module';
+import { AuthService } from './services/auth.service';
+import { TokenInterceptorService } from './services/token-interceptor.service';
+import { AuthGuard } from './auth.guard';
+import { CallbackComponent } from './callback/callback.component';
+import { PetsComponent } from './pets/pets.component';
+import { UserResolverService } from './services/user-resolver.service';
 
 const appRoutes: Routes = [
-    {
-        path      : '**',
-        redirectTo: 'sample'
-    }
+    { path: 'tag/:id', component: TagComponent },
+    /* { path: 'callback', component: CallbackComponent, resolve: {code: UserResolverService} }, */
+    { path: 'callback', component: CallbackComponent },
+    { path: 'pets', component: PetsComponent, canActivate: [AuthGuard] },
+    { path: '', redirectTo: '/sample', pathMatch: 'full' },
+    { path: '*', redirectTo: '/sample', pathMatch: 'full' }
 ];
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
+        TagComponent,
+        CallbackComponent,
+        PetsComponent
     ],
     imports     : [
         BrowserModule,
@@ -42,8 +55,7 @@ const appRoutes: Routes = [
         MatMomentDateModule,
 
         // Material
-        MatButtonModule,
-        MatIconModule,
+        MaterialModule,
 
         // Fuse modules
         FuseModule.forRoot(fuseConfig),
@@ -56,6 +68,11 @@ const appRoutes: Routes = [
         LayoutModule,
         SampleModule
     ],
+    providers: [AuthService, AuthGuard, {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptorService,
+        multi: true
+      },UserResolverService],
     bootstrap   : [
         AppComponent
     ]

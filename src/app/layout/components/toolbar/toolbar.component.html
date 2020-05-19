@@ -25,13 +25,20 @@
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-button [matMenuTriggerFor]="userMenu"
+            <button *ngIf="loggedIn()" mat-button [matMenuTriggerFor]="userMenu"
                     class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>Charlie Adams</span>
+                    <img class="avatar mr-0 mr-sm-16" src="{{user.Picture}}">
+                    <span class="username mr-12" fxHide fxShow.gt-sm>{{user.Name}}</span>
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
                 </div>
+            </button>
+            <button *ngIf="!loggedIn()" mat-button (click)="login()"
+                    class="user-button">
+                    <div *ngIf="!loggedIn()" fxLayout="row" fxLayoutAlign="center center">
+                        <span class="username mr-12" fxShow.gt-xs>Login</span>
+                        <mat-icon class="m-8" fxHide.xs>person_outline</mat-icon>
+                    </div>
             </button>
 
             <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
@@ -46,7 +53,7 @@
                     <span>Inbox</span>
                 </button>
 
-                <button mat-menu-item class="">
+                <button mat-menu-item class="" (click)="logout()">
                     <mat-icon>exit_to_app</mat-icon>
                     <span>Logout</span>
                 </button>

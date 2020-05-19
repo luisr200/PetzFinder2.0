@@ -7,6 +7,9 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scrollbar/fuse-perfect-scrollbar.directive';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
+import { UserService } from 'app/services/user.service';
+import { AuthService } from 'app/services/auth.service';
+import { User } from 'app/models/user';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -18,7 +21,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 {
     fuseConfig: any;
     navigation: any;
-
+    user: User = new User();
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
@@ -35,13 +38,15 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _fuseConfigService: FuseConfigService,
         private _fuseNavigationService: FuseNavigationService,
         private _fuseSidebarService: FuseSidebarService,
-        private _router: Router
+        private _router: Router,
+        private _userService: UserService,
+        private _authService: AuthService
     )
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
-
+    
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
     // -----------------------------------------------------------------------------------------------------
@@ -119,6 +124,28 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
             .subscribe(() => {
                 this.navigation = this._fuseNavigationService.getCurrentNavigation();
             });
+            //this._userService.getUser().subscribe(s => this.user = s);
+            if (this._authService.loggedIn() && this._userService.FilledIn()) {
+                this.user = this._userService.getUser()
+            }else{
+                this._userService.isLoggedIn().subscribe(
+                    s => {
+                        if (s) {
+                            this.user = this._userService.getUser()
+                            if (!this.user) {
+                                this._userService.getUserFromRepository()
+                                .subscribe(s => this.user = s)
+                            }
+                        }
+                    }
+                )
+            }
+            
+        
+    }
+
+    loggedIn(): boolean{
+        return this._authService.loggedIn()
     }
 
     /**

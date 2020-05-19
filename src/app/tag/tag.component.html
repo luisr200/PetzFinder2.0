@@ -1,0 +1,22 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+    <div class="row" *ngIf="tag">
+        <mat-card class="card">
+          <mat-card-header>
+            <div mat-card-avatar [ngStyle]="{'background-image': getUrl()}"></div>
+            <mat-card-title>{{tag.Name}}</mat-card-title>
+            <mat-card-subtitle>{{tag.PetId}}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image style="max-width: 100; max-height: 100;" src="{{tag.Photo}}" alt="{{tag.PetId}}">
+          <mat-card-content>
+            <p>
+              {{tag.Description}} - TAG: {{tag.TagId}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>LIKE</button>
+            <button mat-button>SHARE</button>
+          </mat-card-actions>
+        </mat-card>
+        <button mat-button (click)="goBack()">Go Back</button>
+      </div>
+</div>
