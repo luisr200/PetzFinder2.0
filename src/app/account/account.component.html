@@ -1,0 +1,59 @@
+
+<div id="profile" class="page-layout simple tabbed">
+
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+         fxLayoutAlign.gt-sm="space-between end">
+
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+             fxLayoutAlign.gt-sm="start center">
+            <img class="profile-image avatar huge" src="{{user.Picture}}"
+                 [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                {{user.Name}}
+            </div>
+        </div>
+    </div>
+
+    <div id="about" class="p-24" fxLayout="row wrap">
+        <div class="profile-box info-box general" fxLayout="column">
+        <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
+            <header class="accent">
+                <div class="title">General Information</div>
+            </header>
+
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Email: {{user.Email}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Address: {{user.Address}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Birthday: {{user.Birthdate}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Phones</div>
+                    <div class="info" fxLayout="row" fxLayoutAlign="start center"
+                        *ngFor="let phone of user.Phones">
+                        <span>{{phone}}</span>
+                    </div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Location: {{user.Location}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- CONTENT -->
+
+    
+
+<!-- / CONTENT -->

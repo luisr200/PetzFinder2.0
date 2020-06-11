@@ -45,11 +45,12 @@ export class UserService {
     return this.http.get<User>(apiUrl + '/user', httpOptions)
     .pipe(map(usr => {
         console.log(usr)
-        if(!usr.Name || !usr.Picture){
+        if(!usr || (!usr.Name || !usr.Picture)){
           this.setUserInfo(usr);
+        }else{
+          localStorage.setItem('user',JSON.stringify(usr))
+          return usr
         }
-        localStorage.setItem('user',JSON.stringify(usr))
-        return usr
       }))
   }
   /* async getUserFromRepository(): Promise<User> {
@@ -72,6 +73,9 @@ export class UserService {
   } */
 
   setUser(userInfo: UserInfo, user: User){
+    if(!user){
+      user = new User()
+    }
     user.Email = userInfo.email
     user.Name = userInfo.name
     if (userInfo.username.toLocaleLowerCase().includes('facebook')) {

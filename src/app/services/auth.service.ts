@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { UserService } from './user.service';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { fstat } from 'fs';
+import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 
 const loginPageRoot = environment.cognitoLoginPage;
 const cognitoClientId = environment.cognitoClientId;
@@ -26,7 +27,7 @@ export class AuthService {
   tokens: Token = new Token();
   
 
-  constructor(private _aws: AwsService, private _logger: LoggerService, private _router: Router, private _user: UserService) { }
+  constructor(private _aws: AwsService, private _logger: LoggerService, private _router: Router, private _user: UserService, private _fuseNavigationService: FuseNavigationService) { }
 
   /* setTokens(code: string){
     this.inAuthProcess = true
@@ -62,7 +63,8 @@ export class AuthService {
           this.tokens = JSON.parse(JSON.stringify(res));
           localStorage.setItem('access_token',this.tokens.access_token)
           localStorage.setItem('id_token',this.tokens.id_token)
-          this._user.getUserFromRepository().subscribe(() => this._user.logUserChanged(true))
+          this._user.getUserFromRepository().subscribe((res) => {if(res){this._user.logUserChanged(true)}}),
+          this.toggleNavBarItems(false)
           return res
           //return of(this.tokens.id_token)
         },
@@ -87,11 +89,19 @@ export class AuthService {
     localStorage.removeItem('id_token')
     localStorage.removeItem('access_token')
     localStorage.removeItem('user')
+    this.toggleNavBarItems(true)
     this._router.navigate(['/'])
   }
 
   loggedIn(){
     return !!localStorage.getItem('id_token')
+  }
+
+  toggleNavBarItems(value: boolean){
+    // Update the calendar menu item
+    this._fuseNavigationService.updateNavigationItem('pets', {
+        hidden: value
+    });
   }
 
 

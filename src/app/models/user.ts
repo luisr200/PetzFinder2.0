@@ -1,9 +1,12 @@
 export class User {
     Email: string
     Name: string
-    Phone: string
-    Country: string
+    Phones: string[]
+    Location: string
     CreatedDate: string
     Picture: string
+    Birthdate: string
+    UpdatedDate: string
+    Address: string
   }
   

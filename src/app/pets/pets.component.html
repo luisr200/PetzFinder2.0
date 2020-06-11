@@ -1,1 +1,24 @@
-<p>pets works!</p>
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+    <div class="row">
+        <div *ngFor="let pet of pets" class="inline-block">
+            <mat-card class="card">
+                <mat-card-header>
+                  <div mat-card-avatar [ngStyle]="{'background-image': getUrl()}"></div>
+                  <mat-card-title>{{pet.Name}}</mat-card-title>
+                  <mat-card-subtitle>{{pet.Id}}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image class="imgs" src="{{pet.MainPicture}}" alt="{{pet.Id}}">
+                <mat-card-content>
+                  <p>
+                    {{pet.Description}}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>Edit</button>
+                  <button mat-button>Delete</button>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+        </div>
+      <button mat-button (click)="goBack()">Go Back</button>
+</div>

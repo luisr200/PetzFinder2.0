@@ -26,14 +26,18 @@ import { AuthGuard } from './auth.guard';
 import { CallbackComponent } from './callback/callback.component';
 import { PetsComponent } from './pets/pets.component';
 import { UserResolverService } from './services/user-resolver.service';
+import { HomeComponent } from './home/home.component';
+import { AccountComponent } from './account/account.component';
 
 const appRoutes: Routes = [
     { path: 'tag/:id', component: TagComponent },
     /* { path: 'callback', component: CallbackComponent, resolve: {code: UserResolverService} }, */
     { path: 'callback', component: CallbackComponent },
     { path: 'pets', component: PetsComponent, canActivate: [AuthGuard] },
-    { path: '', redirectTo: '/sample', pathMatch: 'full' },
-    { path: '*', redirectTo: '/sample', pathMatch: 'full' }
+    { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+    { path: 'home', component: HomeComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: '*', redirectTo: '/home', pathMatch: 'full' }
 ];
 
 @NgModule({
@@ -41,7 +45,9 @@ const appRoutes: Routes = [
         AppComponent,
         TagComponent,
         CallbackComponent,
-        PetsComponent
+        PetsComponent,
+        HomeComponent,
+        AccountComponent
     ],
     imports     : [
         BrowserModule,

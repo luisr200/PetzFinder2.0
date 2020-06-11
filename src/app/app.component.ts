@@ -15,6 +15,7 @@ import { navigation } from 'app/navigation/navigation';
 import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 import { UserService } from './services/user.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
     selector   : 'app',
@@ -50,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _platform: Platform,
-        private _userService: UserService
+        private _authService: AuthService
     )
     {
         // Get default navigation
@@ -61,6 +62,11 @@ export class AppComponent implements OnInit, OnDestroy
 
         // Set the main navigation as our current navigation
         this._fuseNavigationService.setCurrentNavigation('main');
+        if (!this._authService.loggedIn()) {
+            this._fuseNavigationService.updateNavigationItem('pets', {
+                hidden: true
+            });
+        }
 
         // Add languages
         this._translateService.addLangs(['en', 'tr']);
@@ -110,6 +116,8 @@ export class AppComponent implements OnInit, OnDestroy
         // Add is-mobile class to the body if the platform is mobile
         if ( this._platform.ANDROID || this._platform.IOS )
         {
+            console.log(this._platform.ANDROID)
+            console.log(this._platform.IOS)
             this.document.body.classList.add('is-mobile');
         }
 
