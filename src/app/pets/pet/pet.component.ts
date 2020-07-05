@@ -38,7 +38,7 @@ export class PetComponent implements OnInit {
 
   save(): void {
     this._petService.savePet(this.pet);
-    this._snackBar.open('Mascot has been saved', 'success', {
+    this._snackBar.open('Mascot has been saved', 'congratulations', {
       duration: 2000,
     });
   }
