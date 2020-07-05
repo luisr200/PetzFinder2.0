@@ -1,5 +1,8 @@
 <div class="page-layout blank p-24" fusePerfectScrollbar>
-    <div class="row" *ngIf="tag">
+  <div *ngIf="response == false" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+    <div class="row" *ngIf="tag" fxLayoutAlign="center center">
         <mat-card class="card">
           <mat-card-header>
             <div mat-card-avatar [ngStyle]="{'background-image': getUrl()}"></div>
@@ -13,10 +16,17 @@
             </p>
           </mat-card-content>
           <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
+            <button mat-button>Report</button>
+            <button mat-button>Share</button>
           </mat-card-actions>
         </mat-card>
-        <button mat-button (click)="goBack()">Go Back</button>
+        
       </div>
+      <div *ngIf="response == true && !tag">
+        <h2 class=".mat-h2">This tag has not yet been activated</h2>
+        <button mat-fab (click)="activate()">Activate</button>
+      </div>
+      <mat-divider></mat-divider>
+      <br>
+      <button mat-raised-button  (click)="goBack()">Go Back</button>
 </div>

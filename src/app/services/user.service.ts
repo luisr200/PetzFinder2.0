@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user';
@@ -25,7 +25,7 @@ export class UserService {
   private user: User;
   public logged = new BehaviorSubject<boolean>(false);
   setUserInfo(user: User) {
-      let headers = new HttpHeaders({'Content-Type':'application/json'});
+      let headers = new HttpHeaders({ 'Content-Type': 'application/json'});
       let httpOptions = {
         headers: headers
       };
@@ -37,17 +37,19 @@ export class UserService {
   getUserFromRepository(): Observable<User> {
     //Se envia el id_token como parte de la autorizacion para hacer la llamada al api
     //let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer ' + this.awsService.tokens.id_token});
-    let headers = new HttpHeaders({'Content-Type':'application/json'});
+    let headers = new HttpHeaders({'Content-Type':'application/json',});
 
     let httpOptions = {
       headers: headers
     };
-    return this.http.get<User>(apiUrl + '/user', httpOptions)
+    return this.http.get<User>(apiUrl + '/user')
     .pipe(map(usr => {
-        console.log(usr)
+        this.validPicture(usr.Picture).subscribe(data => {},
+        err => this.setUserInfo(usr))
         if(!usr || (!usr.Name || !usr.Picture)){
           this.setUserInfo(usr);
-        }else{
+        }
+        else{
           localStorage.setItem('user',JSON.stringify(usr))
           return usr
         }
@@ -76,6 +78,7 @@ export class UserService {
     if(!user){
       user = new User()
     }
+    console.log(userInfo)
     user.Email = userInfo.email
     user.Name = userInfo.name
     if (userInfo.username.toLocaleLowerCase().includes('facebook')) {
@@ -110,6 +113,12 @@ export class UserService {
 
   isLoggedIn(){
     return this.logged.asObservable()
+  }
+
+  validPicture(url: string): Observable<HttpResponse<Object>>{
+    console.log(url)
+    return this.http.get(url, { observe: 'response' });
+
   }
 
 }

@@ -1,0 +1,109 @@
+<div class="page-layout blank p-24" fusePerfectScrollbar>
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Overall data
+            </mat-panel-title>
+            <mat-panel-description>
+                Type your basic buddy information   
+                <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+                fxLayoutAlign.gt-sm="space-evenly center" fxFlex.gt-lg="80">
+                <img class="imgs" src="{{pet.MainPicture}}" alt="{{pet.Id}}">
+                <div>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>Id</mat-label>
+                            <input matInput [(ngModel)]="pet.Id" disabled>
+                            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        </mat-form-field>
+                        </p>
+                    <p>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>Name</mat-label>
+                            <input matInput [(ngModel)]="pet.Name">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-radio-group aria-label="Sex" [(ngModel)]="pet.Sex">
+                            <mat-radio-button value="Male">Male</mat-radio-button>
+                            <mat-radio-button value="Female">Female</mat-radio-button>
+                        </mat-radio-group>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>Age</mat-label>
+                            <input matInput [(ngModel)]="pet.Age">
+                        </mat-form-field>
+                    </p>
+                    <mat-form-field appearance="standard" fxFlexFill>
+                        <mat-label>Birthday</mat-label>
+                        <input matInput [matDatepicker]="picker1" [(ngModel)]="pet.Birthday">
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>Description</mat-label>
+                            <textarea matInput [(ngModel)]="pet.Description"></textarea>
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>Pedigree</mat-label>
+                            <input matInput [(ngModel)]="pet.Pedigree">
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>Special Conditions</mat-label>
+                            <textarea matInput [(ngModel)]="pet.SpecialConditions"></textarea>
+                        </mat-form-field>
+                    </p>
+                    <p>
+                        <mat-form-field appearance="standard" fxFlexFill>
+                            <mat-label>SpecialConsiderations</mat-label>
+                            <textarea matInput [(ngModel)]="pet.SpecialConsiderations"></textarea>
+                        </mat-form-field>
+                    </p>
+                </div>
+                <button mat-fab color="accent" (click)="save()">Save</button>
+            </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Medical History
+            </mat-panel-title>
+            <mat-panel-description>
+                View appointments and threatment   
+                <mat-icon>book</mat-icon>
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+        
+            You currently have no apointments   
+        </mat-expansion-panel>
+        
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Tags
+            </mat-panel-title>
+            <mat-panel-description>
+                Tags Associated   
+                <mat-icon>fingerprint</mat-icon>
+            </mat-panel-description>
+            </mat-expansion-panel-header>
+        </mat-expansion-panel>
+        </mat-accordion>
+    <mat-divider></mat-divider>
+    <br>
+    
+    <button mat-button (click)="goBack()">Go Back</button>
+</div>

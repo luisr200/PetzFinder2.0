@@ -6,7 +6,7 @@
          fxLayoutAlign.gt-sm="space-between end">
 
         <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
-             fxLayoutAlign.gt-sm="start center">
+             fxLayoutAlign.gt-sm="center center">
             <img class="profile-image avatar huge" src="{{user.Picture}}"
                  [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             <div class="name" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
@@ -15,7 +15,7 @@
         </div>
     </div>
 
-    <div id="about" class="p-24" fxLayout="row wrap">
+    <div id="about" class="p-24" fxLayout="row">
         <div class="profile-box info-box general" fxLayout="column">
         <div class="about-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65">
             <header class="accent">

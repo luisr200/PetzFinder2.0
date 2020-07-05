@@ -12,6 +12,9 @@ export const locale = {
             },
             'PETS': {
                 'TITLE': 'My pets'
+            },
+            'ADMIN': {
+                'TITLE': 'Admin'
             }
         }
     }

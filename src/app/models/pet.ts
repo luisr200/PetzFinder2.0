@@ -1,6 +1,7 @@
 export class Pet {
     Id: string;;User: string;
     Name: string;
+    Sex: string;
     Age: string;
     Birthday: string;
     Description: string;
@@ -8,5 +9,6 @@ export class Pet {
     Pictures: string;
     Pedigree: string;
     SpecialConditions: string;
-    SpecialConsiderations: string;Avatar: string;
+    SpecialConsiderations: string;
+    Avatar: string;
   }

@@ -13,7 +13,7 @@ export class CallbackComponent implements OnInit {
 
   ngOnInit() {
     const code = this.route.snapshot.queryParamMap.get('code');
-    this.authService.setTokens(code).subscribe(() => this._router.navigate(['/']));
+    this.authService.setTokens(code).subscribe(() => this._router.navigate(['/pets']));
   }
 }
 

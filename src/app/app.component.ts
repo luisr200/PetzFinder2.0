@@ -62,10 +62,17 @@ export class AppComponent implements OnInit, OnDestroy
 
         // Set the main navigation as our current navigation
         this._fuseNavigationService.setCurrentNavigation('main');
-        if (!this._authService.loggedIn()) {
+        if (this._authService.loggedIn()) {
+            console.log(this._authService.isAdmin())
             this._fuseNavigationService.updateNavigationItem('pets', {
-                hidden: true
+                hidden: false
             });
+            if(this._authService.isAdmin()){
+                console.log(this._authService.isAdmin())
+                this._fuseNavigationService.updateNavigationItem('admin', {
+                    hidden: false
+                });
+            }
         }
 
         // Add languages

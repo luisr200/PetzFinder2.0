@@ -21,7 +21,17 @@ export const navigation: FuseNavigation[] = [
                 translate: 'NAV.PETS.TITLE',
                 type     : 'item',
                 icon     : 'list',
-                url      : '/pets'
+                url      : '/pets',
+                hidden   : true
+            },
+            {
+                id       : 'admin',
+                title    : 'Admin',
+                translate: 'NAV.ADMIN.TITLE',
+                type     : 'item',
+                icon     : 'list',
+                url      : '/admin',
+                hidden   : true
             },
             {
                 id       : 'sample',

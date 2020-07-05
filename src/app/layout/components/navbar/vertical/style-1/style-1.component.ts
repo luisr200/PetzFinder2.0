@@ -22,6 +22,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
     user: User = new User();
+    response: boolean = false;
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
     private _unsubscribeAll: Subject<any>;
@@ -127,9 +128,11 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
             //this._userService.getUser().subscribe(s => this.user = s);
             if (this._authService.loggedIn() && this._userService.FilledIn()) {
                 this.user = this._userService.getUser()
+                this.response = true;
             }else{
                 this._userService.isLoggedIn().subscribe(
                     s => {
+                        this.response = true;
                         if (s) {
                             this.user = this._userService.getUser()
                             if (!this.user) {

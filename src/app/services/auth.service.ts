@@ -9,6 +9,7 @@ import { UserService } from './user.service';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { fstat } from 'fs';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
+import * as jwt_decode from 'jwt-decode';
 
 const loginPageRoot = environment.cognitoLoginPage;
 const cognitoClientId = environment.cognitoClientId;
@@ -76,6 +77,7 @@ export class AuthService {
   }
 
   getIdToken(){
+    //console.log(JSON.parse(atob(localStorage.getItem('id_token').split('.')[1]))["cognito:groups"])
     return localStorage.getItem('id_token');
   }
 
@@ -86,14 +88,13 @@ export class AuthService {
 
   logout(){
     this._user.logUserChanged(false)
-    localStorage.removeItem('id_token')
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('user')
+    localStorage.clear()
     this.toggleNavBarItems(true)
     this._router.navigate(['/'])
   }
 
   loggedIn(){
+    
     return !!localStorage.getItem('id_token')
   }
 
@@ -102,6 +103,26 @@ export class AuthService {
     this._fuseNavigationService.updateNavigationItem('pets', {
         hidden: value
     });
+      if(this.isAdmin() || value){
+        this._fuseNavigationService.updateNavigationItem('admin', {
+          hidden: value
+      });
+    }
+  }
+
+  isAdmin(): boolean {
+    if(this.getIdToken()){
+      //console.log((JSON.parse(this.decodeToken())["cognito:groups"][0] == 'Admin'))
+      return JSON.parse(this.decodeToken())["cognito:groups"][0] == 'Admin';
+    }else{
+      return false;
+    }
+    
+  }
+
+  decodeToken(): string {
+    //console.log(JSON.parse(atob(localStorage.getItem('id_token').split('.')[1].replace(/-/g, "+").replace(/_/g, "/")))["cognito:groups"])
+    return atob(localStorage.getItem('id_token').split('.')[1].replace(/-/g, "+").replace(/_/g, "/"))
   }
 
 

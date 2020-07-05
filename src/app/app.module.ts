@@ -28,6 +28,9 @@ import { PetsComponent } from './pets/pets.component';
 import { UserResolverService } from './services/user-resolver.service';
 import { HomeComponent } from './home/home.component';
 import { AccountComponent } from './account/account.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './admin.guard';
+import { PetComponent } from './pets/pet/pet.component';
 
 const appRoutes: Routes = [
     { path: 'tag/:id', component: TagComponent },
@@ -35,7 +38,10 @@ const appRoutes: Routes = [
     { path: 'callback', component: CallbackComponent },
     { path: 'pets', component: PetsComponent, canActivate: [AuthGuard] },
     { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+    { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
     { path: 'home', component: HomeComponent },
+    { path: 'pet/:id', component: PetComponent },
+    { path: 'pet', component: PetComponent },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: '*', redirectTo: '/home', pathMatch: 'full' }
 ];
@@ -47,7 +53,9 @@ const appRoutes: Routes = [
         CallbackComponent,
         PetsComponent,
         HomeComponent,
-        AccountComponent
+        AccountComponent,
+        AdminComponent,
+        PetComponent
     ],
     imports     : [
         BrowserModule,

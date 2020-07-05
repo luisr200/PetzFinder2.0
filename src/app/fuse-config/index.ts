@@ -16,8 +16,8 @@ export const fuseConfig: FuseConfig = {
         style    : 'vertical-layout-1',
         width    : 'fullwidth',
         navbar   : {
-            primaryBackground  : 'green-50',
-            secondaryBackground: 'fuse-navy-700',
+            primaryBackground  : 'fuse-white-50',
+            secondaryBackground: 'teal-900',
             folded             : false,
             hidden             : false,
             position           : 'left',
@@ -25,7 +25,7 @@ export const fuseConfig: FuseConfig = {
         },
         toolbar  : {
             customBackgroundColor: true,
-            background           : 'green-50',
+            background           : 'teal-900',
             hidden               : false,
             position             : 'below-fixed'
         },
